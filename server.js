@@ -5,8 +5,6 @@ const helmet = require('helmet');
 const cors = require('cors');
 const MOVIEDEX = require('./moviedex.json')
 
-console.log(process.env.API_TOKEN)
-
 const app = express();
 
 app.use(morgan('dev'));
@@ -17,8 +15,6 @@ app.use(function validationBearerToken(req, res, next) {
     const apiToken = process.env.API_TOKEN
     const authToken = req.get('Authorization')
     
-    console.log('validate bearer token middleware')
-    
     if (!authToken || authToken.split(' ')[1] !== apiToken) {
         return res.status(401).json({ error: "Unauthorized request" })
     }
@@ -27,7 +23,6 @@ app.use(function validationBearerToken(req, res, next) {
 
 let movieGenres = MOVIEDEX.map(movies => movies.genre.toLowerCase())
 let validGenres = [...new Set(movieGenres)]
-console.log(validGenres)
 
 function handleGetMovies(req, res) {
     let response = MOVIEDEX
